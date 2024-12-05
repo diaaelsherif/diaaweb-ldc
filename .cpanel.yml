@@ -2,8 +2,8 @@
 deployment:
   tasks:
     - export DEPLOYPATH=/home/diaawebc/public_html
-    - export APIPATH==/home/diaawebc/public_html/api
-    - export ARTISANPATH==/home/diaawebc/public_html/api/artisan
+    - export APIPATH=/home/diaawebc/public_html/api
+    - export ARTISANPATH=/home/diaawebc/public_html/api/artisan
     - /bin/cp -R api $DEPLOYPATH
     - /usr/local/bin/php $ARTISANPATH migrate --force
     - /usr/local/bin/php $ARTISANPATH config:cache
