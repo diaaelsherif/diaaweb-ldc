@@ -5,15 +5,27 @@ namespace App\Http\Controllers;
 use App\Models\Course;
 use App\Http\Requests\StoreCourseRequest;
 use App\Http\Requests\UpdateCourseRequest;
-
+use App\Interfaces\CourseRepositoryInterface;
+use App\Classes\ResponseClass;
+use App\Http\Resources\CourseResource;
+use Illuminate\Support\Facades\DB;
 class CourseController extends Controller
 {
+
+    private CourseRepositoryInterface $courseRepositoryInterface;
+
+    public function __construct(CourseRepositoryInterface $courseRepositoryInterface)
+    {
+        $this->courseRepositoryInterface = $courseRepositoryInterface;
+    }
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        //
+        $data = $this->courseRepositoryInterface->index();
+
+        return ResponseClass::sendResponse(CourseResource::collection($data),'',200);
     }
 
     /**
@@ -29,15 +41,30 @@ class CourseController extends Controller
      */
     public function store(StoreCourseRequest $request)
     {
-        //
+        $details =[
+            'name' => $request->name,
+            'description' => $request->description
+        ];
+        DB::beginTransaction();
+        try{
+             $course = $this->courseRepositoryInterface->store($details);
+
+             DB::commit();
+             return ResponseClass::sendResponse(new CourseResource($course),'Course Create Successful',201);
+
+        }catch(\Exception $ex){
+            return ResponseClass::rollback($ex);
+        }
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Course $course)
+    public function show($id)
     {
-        //
+        $course = $this->courseRepositoryInterface->getById($id);
+
+        return ResponseClass::sendResponse(new CourseResource($course),'',200);
     }
 
     /**
@@ -51,16 +78,31 @@ class CourseController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateCourseRequest $request, Course $course)
+    public function update(UpdateCourseRequest $request, $id)
     {
-        //
+        $updateDetails =[
+            'name' => $request->name,
+            'description' => $request->description
+        ];
+        DB::beginTransaction();
+        try{
+             $course = $this->courseRepositoryInterface->update($updateDetails,$id);
+
+             DB::commit();
+             return ResponseClass::sendResponse('Course Update Successful','',201);
+
+        }catch(\Exception $ex){
+            return ResponseClass::rollback($ex);
+        }
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Course $course)
+    public function destroy($id)
     {
-        //
+         $this->courseRepositoryInterface->delete($id);
+
+        return ResponseClass::sendResponse('Course Delete Successful','',204);
     }
 }
