@@ -3,10 +3,10 @@ deployment:
   tasks:
     - export DEPLOYPATH=/home/diaawebc/public_html
     - export APIPATH==/home/diaawebc/public_html/api
+    - export ARTISANPATH==/home/diaawebc/public_html/api/artisan
     - /bin/cp -R api $DEPLOYPATH
-    - /bin/cd $APIPATH
-    - @/usr/local/bin/composer install --optimize-autoloader --no-dev
-    - @/usr/local/bin/php artisan migrate --force
-    - @/usr/local/bin/php artisan config:cache
-    - @/usr/local/bin/php artisan route:cache
-    - @/usr/local/bin/php artisan view:cache
+    - @/usr/local/bin/composer install --working-dir $APIPATH --optimize-autoloader --no-dev
+    - @/usr/local/bin/php $ARTISANPATH migrate --force
+    - @/usr/local/bin/php $ARTISANPATH config:cache
+    - @/usr/local/bin/php $ARTISANPATH route:cache
+    - @/usr/local/bin/php $ARTISANPATH view:cache
