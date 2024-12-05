@@ -3,7 +3,7 @@
 namespace App\Repository;
 use App\Models\Course;
 use App\Interfaces\CourseRepositoryInterface;
-class CourseReposiotry implements CourseRepositoryInterface
+class CourseRepository implements CourseRepositoryInterface
 {
     public function index(){
         return Course::all();
