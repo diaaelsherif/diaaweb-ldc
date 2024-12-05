@@ -1,8 +1,9 @@
 ---
 deployment:
   tasks:
-    - export DEPLOYPATH=/home/example/public_html/api
+    - export DEPLOYPATH=/home/diaawebc/public_html/api
     - /bin/cp -R api $DEPLOYPATH
+    - /bin/cd $DEPLOYPATH
     - @/usr/local/bin/composer install --optimize-autoloader --no-dev
     - @/usr/local/bin/php artisan migrate --force
     - @/usr/local/bin/php artisan config:cache
