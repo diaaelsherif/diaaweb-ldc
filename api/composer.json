@@ -35,18 +35,18 @@
     "scripts": {
         "post-autoload-dump": [
             "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
-            "@php artisan package:discover --ansi"
+            "@/usr/local/bin/php artisan package:discover --ansi"
         ],
         "post-update-cmd": [
-            "@php artisan vendor:publish --tag=laravel-assets --ansi --force"
+            "@/usr/local/bin/php artisan vendor:publish --tag=laravel-assets --ansi --force"
         ],
         "post-root-package-install": [
-            "@php -r \"file_exists('.env') || copy('.env.example', '.env');\""
+            "@/usr/local/bin/php -r \"file_exists('.env') || copy('.env.example', '.env');\""
         ],
         "post-create-project-cmd": [
-            "@php artisan key:generate --ansi",
-            "@php -r \"file_exists('database/database.sqlite') || touch('database/database.sqlite');\"",
-            "@php artisan migrate --graceful --ansi"
+            "@/usr/local/bin/php artisan key:generate --ansi",
+            "@/usr/local/bin/php -r \"file_exists('database/database.sqlite') || touch('database/database.sqlite');\"",
+            "@/usr/local/bin/php artisan migrate --graceful --ansi"
         ],
         "dev": [
             "Composer\\Config::disableProcessTimeout",
@@ -65,7 +65,8 @@
         "allow-plugins": {
             "pestphp/pest-plugin": true,
             "php-http/discovery": true
-        }
+        },
+        "cache-dir": "/home/diaawebc/public_html/api/cache"
     },
     "minimum-stability": "stable",
     "prefer-stable": true

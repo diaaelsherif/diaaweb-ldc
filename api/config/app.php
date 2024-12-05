@@ -52,7 +52,7 @@ return [
     |
     */
 
-    'url' => env('APP_URL', 'http://localhost'),
+    'url' => env('APP_URL', 'http://diaaweb.com/api'),
 
     /*
     |--------------------------------------------------------------------------
@@ -97,7 +97,7 @@ return [
 
     'cipher' => 'AES-256-CBC',
 
-    'key' => env('APP_KEY'),
+    'key' => env('APP_KEY', 'base64:eHNhaWhldHFlcDZnZHdsdXh6bjRsdmJ2eW1xdHN5d2M='),
 
     'previous_keys' => [
         ...array_filter(
