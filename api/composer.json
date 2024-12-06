@@ -34,18 +34,18 @@
     "scripts": {
         "post-autoload-dump": [
             "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
-            "@/usr/local/bin/ea-php82 /home/diaawebc/public_html/api/artisan package:discover --ansi"
+            "@/usr/local/bin/ea-php82 $ARTISANPATH package:discover --ansi"
         ],
         "post-update-cmd": [
-            "@/usr/local/bin/ea-php82 /home/diaawebc/public_html/api/artisan vendor:publish --tag=laravel-assets --ansi --force"
+            "@/usr/local/bin/ea-php82 $ARTISANPATH vendor:publish --tag=laravel-assets --ansi --force"
         ],
         "post-root-package-install": [
             "@/usr/local/bin/ea-php82 -r \"file_exists('.env') || copy('.env.example', '.env');\""
         ],
         "post-create-project-cmd": [
-            "@/usr/local/bin/ea-php82 /home/diaawebc/public_html/api/artisan key:generate --ansi",
+            "@/usr/local/bin/ea-php82 $ARTISANPATH key:generate --ansi",
             "@/usr/local/bin/ea-php82 -r \"file_exists('database/database.sqlite') || touch('database/database.sqlite');\"",
-            "@/usr/local/bin/ea-php82 /home/diaawebc/public_html/api/artisan migrate --graceful --ansi"
+            "@/usr/local/bin/ea-php82 $ARTISANPATH migrate --graceful --ansi"
         ],
         "dev": [
             "Composer\\Config::disableProcessTimeout",
