@@ -66,8 +66,7 @@
             "pestphp/pest-plugin": true,
             "php-http/discovery": true
         },
-        "cache-dir": "/home/diaawebc/public_html/api/cache",
-        "platform-check": false
+        "cache-dir": "/home/diaawebc/public_html/api/cache"
     },
     "minimum-stability": "stable",
     "prefer-stable": true
