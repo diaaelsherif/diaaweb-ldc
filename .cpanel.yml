@@ -6,11 +6,10 @@ deployment:
     - export ARTISANPATH=/home/diaawebc/public_html/api/artisan
     - /bin/cp -R api $DEPLOYPATH
     - /bin/ls -d /opt/cpanel/*
+    - /bin/ls -d /opt/cpanel/ea-php82/*
     - /bin/ls -d /usr/local/*
     - /bin/ls -d /usr/local/bin/*
-    - /bin/ls -d /usr/local/cpanel/*
-    - /bin/ls -d /usr/local/cpanel/composer/*
-    - /usr/local/cpanel/composer/bin/composer install --working-dir=$APIPATH --optimize-autoloader --no-dev
+    - /opt/cpanel/ea-php82/composer/bin/composer install --working-dir=$APIPATH --optimize-autoloader --no-dev
     - /usr/local/bin/php $ARTISANPATH migrate --force
     - /usr/local/bin/php $ARTISANPATH config:cache
     - /usr/local/bin/php $ARTISANPATH route:cache
