@@ -5,7 +5,7 @@ deployment:
     - export APIPATH=/home/diaawebc/public_html/api
     - export ARTISANPATH=/home/diaawebc/public_html/api/artisan
     - /bin/cp -R api $DEPLOYPATH
-    - composer install --working-dir=$APIPATH --optimize-autoloader --no-dev
+    - /composer install --working-dir=$APIPATH --optimize-autoloader --no-dev
     - /usr/local/bin/ea-php82 $ARTISANPATH migrate --force
     - /usr/local/bin/ea-php82 $ARTISANPATH config:cache
     - /usr/local/bin/ea-php82 $ARTISANPATH route:cache
