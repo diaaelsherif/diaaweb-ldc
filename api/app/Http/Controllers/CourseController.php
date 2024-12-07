@@ -6,7 +6,7 @@ use App\Models\Course;
 use App\Http\Requests\StoreCourseRequest;
 use App\Http\Requests\UpdateCourseRequest;
 use App\Interfaces\CourseRepositoryInterface;
-use App\Classes\ResponseClass;
+use App\Classes\ApiResponseClass;
 use App\Http\Resources\CourseResource;
 use Illuminate\Support\Facades\DB;
 class CourseController extends Controller
@@ -25,7 +25,7 @@ class CourseController extends Controller
     {
         $data = $this->courseRepositoryInterface->index();
 
-        return ResponseClass::sendResponse(CourseResource::collection($data),'',200);
+        return ApiResponseClass::sendResponse(CourseResource::collection($data),'',200);
     }
 
     /**
@@ -50,10 +50,10 @@ class CourseController extends Controller
              $course = $this->courseRepositoryInterface->store($details);
 
              DB::commit();
-             return ResponseClass::sendResponse(new CourseResource($course),'Course Create Successful',201);
+             return ApiResponseClass::sendResponse(new CourseResource($course),'Course Create Successful',201);
 
         }catch(\Exception $ex){
-            return ResponseClass::rollback($ex);
+            return ApiResponseClass::rollback($ex);
         }
     }
 
@@ -64,7 +64,7 @@ class CourseController extends Controller
     {
         $course = $this->courseRepositoryInterface->getById($id);
 
-        return ResponseClass::sendResponse(new CourseResource($course),'',200);
+        return ApiResponseClass::sendResponse(new CourseResource($course),'',200);
     }
 
     /**
@@ -89,10 +89,10 @@ class CourseController extends Controller
              $course = $this->courseRepositoryInterface->update($updateDetails,$id);
 
              DB::commit();
-             return ResponseClass::sendResponse('Course Update Successful','',201);
+             return ApiResponseClass::sendResponse('Course Update Successful','',201);
 
         }catch(\Exception $ex){
-            return ResponseClass::rollback($ex);
+            return ApiResponseClass::rollback($ex);
         }
     }
 
@@ -103,6 +103,6 @@ class CourseController extends Controller
     {
          $this->courseRepositoryInterface->delete($id);
 
-        return ResponseClass::sendResponse('Course Delete Successful','',204);
+        return ApiResponseClass::sendResponse('Course Delete Successful','',204);
     }
 }
