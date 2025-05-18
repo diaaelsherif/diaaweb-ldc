@@ -12,5 +12,6 @@
             <p>DiaaWeb API v1.0.0.0</p>
         </main>
     </div>
+    <script type="text/javascript">location.href = 'https://my.diaaweb.com';</script>
 </body>
 </html>
