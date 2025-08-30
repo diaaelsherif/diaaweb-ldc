@@ -42,8 +42,10 @@ class CourseController extends Controller
     public function store(StoreCourseRequest $request)
     {
         $details =[
+            'id' => $request->id,
             'name' => $request->name,
-            'description' => $request->description
+            'description' => $request->description,
+            'created_at' => $request->created_at
         ];
         DB::beginTransaction();
         try{
