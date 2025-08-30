@@ -41,12 +41,13 @@ class CourseController extends Controller
      */
     public function store(StoreCourseRequest $request)
     {
+        $details =[
+            'name' => $request->name,
+            'description' => $request->description,
+        ];
         DB::beginTransaction();
         try{
-             $course = $this->courseRepositoryInterface->store([
-                'name' => $request->name,
-                'description' => $request->description,
-            ]);
+             $course = $this->courseRepositoryInterface->store($details);
 
              DB::commit();
              return ApiResponseClass::sendResponse(new CourseResource($course),'Course Create Successful',201);
