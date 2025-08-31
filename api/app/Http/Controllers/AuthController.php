@@ -89,11 +89,26 @@ class AuthController extends Controller
     // Email Verification Handler
     public function verifyEmailHandler(EmailVerificationRequest $request)
     {
-        $request->fulfill();
+        $user = User::find($request->route('id'));
 
-        return response()->json([
-            'message' => 'User email verified',
-        ], 200);
+        if (!hash_equals((string) $request->route('hash'), sha1($user->getEmailForVerification()))) {
+            throw new AuthorizationException;
+        }
+
+        if ($user->markEmailAsVerified())
+        {
+            event(new Verified($user));
+
+            return response()->json([
+                'message' => 'User email verified',
+            ], 200);
+        }
+        else
+        {
+            return response()->json([
+                'message' => 'User email not verified',
+            ], 500);
+        }
     }
 
     // Resending the Verification Email Handler
