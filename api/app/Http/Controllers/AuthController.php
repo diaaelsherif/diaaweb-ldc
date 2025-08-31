@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
-use App\Classes\ApiResponseClass;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
@@ -20,9 +19,25 @@ class AuthController extends Controller
 
       $user = User::create($validated);
 
-      Auth::login($user);
+      if ($user)
+      {
+        $token = $user->createToken($user->name.'Auth-Token')->plainTextToken;
 
-      return ApiResponseClass::sendResponse(Auth::user(), 'User successfully registered', 200);
+        Auth::login($user);
+
+        // Return data
+        return response()->json([
+            'message' => 'User registered successfully',
+            'token_type' => 'Bearer',
+            'token' => $token
+        ], 201);
+      }
+      else
+      {
+        return response()->json([
+            'message' => 'User not registered successfully',
+        ], 500);
+      }
   }
 
   public function login(Request $request)
@@ -35,11 +50,17 @@ class AuthController extends Controller
       if (Auth::attempt($validated)) {
         $request->session()->regenerate();
 
-        // Sign in user
-        Auth::login(Auth::user());
+        $user = Auth::user();
 
+        $token = $user->createToken($user->name.'Auth-Token')->plainTextToken;
+
+        Auth::login(Auth::user());
         // Return data
-        return ApiResponseClass::sendResponse(Auth::user(), 'User successfully logged in', 200);
+        return response()->json([
+            'message' => 'User successfully logged in',
+            'token_type' => 'Bearer',
+            'token' => $token
+        ], 200);
       }
 
       throw ValidationException::withMessages([
@@ -47,13 +68,26 @@ class AuthController extends Controller
       ]);
   }
 
-  public function logout(Request $request)
-  {
-      Auth::logout();
+    public function logout(Request $request)
+    {
+        $user = Auth::user();
+        if ($user)
+        {
+            $user->tokens()->delete();
+            Auth::logout();
 
-      $request->session()->invalidate();
-      $request->session()->regenerateToken();
+            $request->session()->invalidate();
+            $request->session()->regenerateToken();
 
-      return ApiResponseClass::sendResponse('User successfully logged out', '', 200);
-  }
+            return response()->json([
+                'message' => 'User logged out successfully',
+            ], 200);
+        }
+        else
+        {
+            return response()->json([
+                'message' => 'User not found',
+            ], 404);
+        }
+    }
 }
