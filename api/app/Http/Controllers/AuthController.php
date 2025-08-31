@@ -139,7 +139,7 @@ class AuthController extends Controller
 
         $token = $user->createToken($user->name.'Auth-Token')->plainTextToken;
         if (Auth::attempt($validated, $request->remember)) {
-            return back()->back();
+            return back();
         }
     }
 }
