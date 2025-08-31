@@ -122,6 +122,12 @@ class AuthController extends Controller
         ], 200);
     }
 
+    // Verify Email Notice Handler
+    public function verifyEmailNotice()
+    {
+        return view('verify-email');
+    }
+
     public function verify(Request $request)
     {
         $validated = $request->validate([
@@ -139,7 +145,7 @@ class AuthController extends Controller
 
         $token = $user->createToken($user->name.'Auth-Token')->plainTextToken;
         if (Auth::attempt($validated, $request->remember)) {
-            return back();
+            //
         }
     }
 }
