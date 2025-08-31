@@ -99,7 +99,8 @@ class AuthController extends Controller
     // Resending the Verification Email Handler
     public function verifyEmailResend(Request $request)
     {
-        $request->user()->sendEmailVerificationNotification();
+        $user = User::where('id', $request->user()->id)->first();
+        if ($user) $user->sendEmailVerificationNotification();
 
         return response()->json([
             'message' => 'Verification link sent',
