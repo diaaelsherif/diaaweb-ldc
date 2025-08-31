@@ -34,7 +34,11 @@ class AuthController extends Controller
       if (Auth::attempt($validated)) {
         $request->session()->regenerate();
 
-        return;
+        // Sign in user
+        Auth::login(Auth::user());
+
+        // Return data
+        return $this->successfullRequest(Auth::user(), 'User successfully logged in', 200);
       }
 
       throw ValidationException::withMessages([
