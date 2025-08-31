@@ -50,7 +50,7 @@ class AuthController extends Controller
       if (Auth::attempt($validated)) {
         $request->session()->regenerate();
 
-        $user = Auth::user();
+        $user = $request->user();
 
         $token = $user->createToken($user->name.'Auth-Token')->plainTextToken;
 
