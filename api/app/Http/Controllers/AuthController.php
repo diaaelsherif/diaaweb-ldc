@@ -25,6 +25,8 @@ class AuthController extends Controller
         {
             $token = $user->createToken($user->name.'Auth-Token')->plainTextToken;
 
+            $user->setRememberToken($token);
+
             event(new Registered($user));
 
             // Return data
@@ -58,6 +60,8 @@ class AuthController extends Controller
         }
 
         $token = $user->createToken($user->name.'Auth-Token')->plainTextToken;
+
+        $user->setRememberToken($token);
 
         // Return data
         return response()->json([
@@ -94,8 +98,6 @@ class AuthController extends Controller
         if (!hash_equals((string) $request->route('hash'), sha1($user->getEmailForVerification()))) {
             throw new AuthorizationException;
         }
-
-        $token = $user->createToken($user->name.'Auth-Token')->plainTextToken;
 
         if ($user->markEmailAsVerified())
         {

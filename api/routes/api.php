@@ -15,6 +15,7 @@ Route::get('/email/verify/{id}/{hash}', [AuthController::class, 'verifyEmailHand
 
 // Protected routes
 Route::middleware(['auth:sanctum', 'verified'])->group(function () {
+//Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/courses', [CourseController::class, 'index']);
     Route::get('/courses/{id}', [CourseController::class, 'show']);
     Route::post('/courses', [CourseController::class, 'store']);
