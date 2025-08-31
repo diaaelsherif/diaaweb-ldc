@@ -3,7 +3,7 @@
 return [
     'paths' => ['*'],
     'allowed_methods' => ['*'],
-    'allowed_origins' => ['https://diaaweb.com', 'https://diaaweb.netlify.app', 'http://localhost:53169'],
+    'allowed_origins' => ['https://diaaweb.com', 'https://diaaweb.netlify.app'],
     'allowed_origins_patterns' => [],
     'allowed_headers' => ['*'],
     'exposed_headers' => [],
