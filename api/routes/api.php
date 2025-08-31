@@ -10,7 +10,8 @@ Route::get('/user', function (Request $request) {
 
 // Public routes
 Route::post('/register', [AuthController::class, 'register']);
-Route::post('/login', [AuthController::class, 'login'])->name('login');
+Route::post('/login', [AuthController::class, 'login']);
+Route::get('/login', [AuthController::class, 'login'])->name('login');
 
 // Protected routes
 Route::middleware(['auth:sanctum', 'verified'])->group(function () {
