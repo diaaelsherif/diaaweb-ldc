@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Classes\ApiResponseClass;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
@@ -21,7 +22,7 @@ class AuthController extends Controller
 
       Auth::login($user);
 
-      return;
+      return ApiResponseClass::sendResponse(Auth::user(), 'User successfully registered', 200);
   }
 
   public function login(Request $request)
@@ -38,7 +39,7 @@ class AuthController extends Controller
         Auth::login(Auth::user());
 
         // Return data
-        return $this->successfullRequest(Auth::user(), 'User successfully logged in', 200);
+        return ApiResponseClass::sendResponse(Auth::user(), 'User successfully logged in', 200);
       }
 
       throw ValidationException::withMessages([
@@ -53,6 +54,6 @@ class AuthController extends Controller
       $request->session()->invalidate();
       $request->session()->regenerateToken();
 
-      return;
+      return ApiResponseClass::sendResponse('User successfully logged out', '', 200);
   }
 }
