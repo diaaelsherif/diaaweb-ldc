@@ -25,8 +25,6 @@ class AuthController extends Controller
         {
             $token = $user->createToken($user->name.'Auth-Token')->plainTextToken;
 
-            $user->setRememberToken($token);
-
             event(new Registered($user));
 
             // Return data
@@ -47,8 +45,8 @@ class AuthController extends Controller
     public function login(Request $request)
     {
         $validated = $request->validate([
-        'email' => 'required|email',
-        'password' => 'required|string|min:8',
+            'email' => 'required|email',
+            'password' => 'required|string|min:8',
         ]);
 
         $user = User::where('email',$request->email)->first();
@@ -60,8 +58,6 @@ class AuthController extends Controller
         }
 
         $token = $user->createToken($user->name.'Auth-Token')->plainTextToken;
-
-        $user->setRememberToken($token);
 
         // Return data
         return response()->json([
