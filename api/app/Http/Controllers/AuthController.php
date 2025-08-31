@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Auth\Events\Registered;
+use Illuminate\Foundation\Auth\EmailVerificationRequest;
+//use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
 {
@@ -21,6 +24,8 @@ class AuthController extends Controller
         if ($user)
         {
             $token = $user->createToken($user->name.'Auth-Token')->plainTextToken;
+
+            event(new Registered($user));
 
             // Return data
             return response()->json([
@@ -79,5 +84,25 @@ class AuthController extends Controller
                 'message' => 'User not found',
             ], 404);
         }
+    }
+
+    // Email Verification Handler
+    public function verifyEmailHandler(EmailVerificationRequest $request)
+    {
+        $request->fulfill();
+
+        return response()->json([
+            'message' => 'User email verified',
+        ], 200);
+    }
+
+    // Resending the Verification Email Handler
+    public function verifyEmailResend(Request $request)
+    {
+        $request->user()->sendEmailVerificationNotification();
+
+        return response()->json([
+            'message' => 'Verification link sent',
+        ], 200);
     }
 }
