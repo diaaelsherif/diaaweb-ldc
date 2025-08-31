@@ -14,6 +14,7 @@ Route::post('/login', [AuthController::class, 'login']);
 Route::get('/login', function (Request $request) {
     return view('login');
 })->name('login');
+Route::post('/verify', [AuthController::class, 'verify']);
 
 // Protected routes
 Route::middleware(['auth:sanctum', 'verified'])->group(function () {

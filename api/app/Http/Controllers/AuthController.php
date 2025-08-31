@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
-//use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
 {
@@ -119,5 +119,26 @@ class AuthController extends Controller
         return response()->json([
             'message' => 'Verification link sent',
         ], 200);
+    }
+
+    public function verify(Request $request)
+    {
+        $validated = $request->validate([
+            'email' => 'required|email',
+            'password' => 'required|string|min:8',
+        ]);
+
+        $user = User::where('email',$request->email)->first();
+
+        if(!$user || !Hash::check($request->password, $user->password)){
+        return response()->json([
+            'message' => 'Incorrect credentials'
+        ], 401);
+        }
+
+        $token = $user->createToken($user->name.'Auth-Token')->plainTextToken;
+        if (Auth::attempt($validated, $request->remember)) {
+            return back();
+        }
     }
 }
