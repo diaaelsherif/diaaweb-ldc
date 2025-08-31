@@ -11,10 +11,6 @@ Route::get('/user', function (Request $request) {
 // Public routes
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
-Route::get('/login', function (Request $request) {
-    return view('login');
-})->name('login');
-Route::post('/verify', [AuthController::class, 'verify'])->name('verify');
 
 // Protected routes
 Route::middleware(['auth:sanctum', 'verified'])->group(function () {
@@ -27,7 +23,6 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
 
 Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/logout', [AuthController::class, 'logout']);
-    Route::get('/email/verify', [AuthController::class, 'verifyEmailNotice'])->name('verification.notice');
     Route::get('/email/verify/{id}/{hash}', [AuthController::class, 'verifyEmailHandler'])->middleware('signed')->name('verification.verify');
     Route::post('/email/verification-notification', [AuthController::class, 'verifyEmailResend'])->middleware('throttle:6,1')->name('verification.send');
 });

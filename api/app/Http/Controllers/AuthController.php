@@ -8,16 +8,16 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Auth\Events\Verified;
-use Illuminate\Support\Facades\Auth;
+//use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
 {
     public function register(Request $request)
     {
         $validated = $request->validate([
-        'name' => 'required|string|max:255',
-        'email' => 'required|email|unique:users',
-        'password' => 'required|string|min:8|confirmed',
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|unique:users',
+            'password' => 'required|string|min:8|confirmed',
         ]);
 
         $user = User::create($validated);
@@ -120,32 +120,5 @@ class AuthController extends Controller
         return response()->json([
             'message' => 'Verification link sent',
         ], 200);
-    }
-
-    // Verify Email Notice Handler
-    public function verifyEmailNotice()
-    {
-        return view('verify-email');
-    }
-
-    public function verify(Request $request)
-    {
-        $validated = $request->validate([
-            'email' => 'required|email',
-            'password' => 'required|string|min:8',
-        ]);
-
-        $user = User::where('email',$request->email)->first();
-
-        if(!$user || !Hash::check($request->password, $user->password)){
-        return response()->json([
-            'message' => 'Incorrect credentials'
-        ], 401);
-        }
-
-        $token = $user->createToken($user->name.'Auth-Token')->plainTextToken;
-        if (Auth::attempt($validated, $request->remember)) {
-            //
-        }
     }
 }
