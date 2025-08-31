@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
+use Illuminate\Auth\Events\Verified;
 use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
@@ -138,7 +139,7 @@ class AuthController extends Controller
 
         $token = $user->createToken($user->name.'Auth-Token')->plainTextToken;
         if (Auth::attempt($validated, $request->remember)) {
-            return back();
+            return back()->back();
         }
     }
 }
