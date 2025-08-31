@@ -17,8 +17,9 @@ Route::middleware('guest')->controller(AuthController::class)->group(function ()
 });
 
 // courses
+Route::get('/courses', [CourseController::class, 'index']);
+
 Route::middleware('auth')->controller(CourseController::class)->group(function () {
-    Route::get('/courses', [CourseController::class, 'index']);
     Route::get('/courses/{id}', [CourseController::class, 'show']);
     Route::post('/courses', [CourseController::class, 'store']);
     Route::put('/courses/{id}', [CourseController::class, 'update']);
