@@ -61,9 +61,9 @@ class AuthController extends Controller
 
         // Return data
         return response()->json([
-        'message' => 'User successfully logged in',
-        'token_type' => 'Bearer',
-        'token' => $token
+            'message' => 'User successfully logged in',
+            'token_type' => 'Bearer',
+            'token' => $token
         ], 200);
     }
 
@@ -94,6 +94,8 @@ class AuthController extends Controller
         if (!hash_equals((string) $request->route('hash'), sha1($user->getEmailForVerification()))) {
             throw new AuthorizationException;
         }
+
+        $token = $user->createToken($user->name.'Auth-Token')->plainTextToken;
 
         if ($user->markEmailAsVerified())
         {
